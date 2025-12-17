@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-serif: var(--font-playfair), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to sure everything still looks correct.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer base {
+  :root {
+    /* FINANCIAL INTELLIGENCE PALETTE - LUXURY BLACK & WHITE */
+    --background: 0 0% 100%;       /* #FFFFFF */
+    --foreground: 0 0% 0%;         /* #000000 (Pure Black) */
+    
+    --card: 0 0% 100%;             /* #FFFFFF */
+    --card-foreground: 0 0% 0%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    
+    /* VIBRANT BRAND COLOR */
+    --primary: 0 0% 0%;            /* #000000 (Black) */
+    --primary-foreground: 0 0% 100%;
+    
+    /* SECONDARY (Stark Contrast) */
+    --secondary: 0 0% 98%;         /* #fa_fa_fa (Almost White) */
+    --secondary-foreground: 0 0% 0%;
+    
+    /* MUTED */
+    --muted: 0 0% 98%;
+    --muted-foreground: 0 0% 40%; /* Dark Gray for muted text */
+    
+    --accent: 0 0% 98%;
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* BORDERS: High Contrast Black/Dark */
+    --border: 0 0% 90%;            /* #e5e5e5 */
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%;
+    
+    --radius: 0.5rem;             /* Slight rounding for modern feel */
+  }
+
+  .dark {
+    /* FORCE LIGHT MODE - User still wants clarity */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground text-lg leading-relaxed antialiased; 
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tighter text-slate-900 font-sans font-extrabold;
+  }
+  
+  /* COLORFUL BORDERS - Replace solid black with Brand Black */
+  .border-b-4, .border-l-4, .border-t-4 {
+    border-color: #000000 !important; /* Luxury Black */
+  }
+  
+  /* Reset general borders to be subtle but visible */
+  .border, .border-b, .border-t, .border-l, .border-r {
+    border-style: solid;
+  }
+
+  /* SAFETY OVERRIDE: ELIMINATE ALL COLORS & DIRTY GRAYS */
+  .bg-gray-50, .bg-gray-100, .bg-gray-200, .bg-slate-50, .bg-slate-100, .bg-slate-200, .bg-muted, .bg-blue-50, .bg-blue-100 {
+     background-color: #ffffff !important; /* Force Pure White */
+     color: #000000 !important;
+  }
+}
+
+@layer utilities {
+    .animate-marquee {
+        animation: marquee 25s linear infinite;
+    }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
