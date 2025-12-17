@@ -1,7 +1,13 @@
 import json
 import os
+import sys
 import requests
 from dotenv import load_dotenv
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
 
 # Load environment variables
 load_dotenv()

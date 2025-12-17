@@ -23,12 +23,14 @@ def run_script(script_name):
             cwd=SCRIPT_DIR,
             capture_output=True,
             text=True,
+            encoding='utf-8',
+            errors='replace',
             timeout=300  # 5 minute timeout
         )
         if result.returncode == 0:
-            return True, result.stdout
+            return True, result.stdout or ""
         else:
-            return False, result.stderr
+            return False, result.stderr or ""
     except subprocess.TimeoutExpired:
         return False, "Timeout expired"
     except Exception as e:
