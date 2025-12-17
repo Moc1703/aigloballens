@@ -1,0 +1,8 @@
+newspaper3k
+feedparser
+ollama
+requests
+lxml_html_clean
+python-dotenv
+flask
+flask-cors

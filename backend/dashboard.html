@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlobalLens AI - Control Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 0.9em;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        button {
+            padding: 20px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-generate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-upload {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .btn-view {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        .status.error {
+            border-left-color: #f5576c;
+            background: #fff5f5;
+        }
+        
+        .status.success {
+            border-left-color: #51cf66;
+            background: #f0fdf4;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 GlobalLens AI</h1>
+        <p class="subtitle">Local Control Panel</p>
+        
+        <div class="button-group">
+            <button class="btn-generate" onclick="generateNews()">
+                <span id="generate-text">🔄 Generate Fresh News</span>
+            </button>
+            
+            <button class="btn-upload" onclick="uploadToVercel()">
+                <span id="upload-text">☁️ Upload to Vercel</span>
+            </button>
+            
+            <button class="btn-view" onclick="viewLocal()">
+                <span>👁️ Preview Local Site</span>
+            </button>
+        </div>
+        
+        <div class="status" id="status"></div>
+    </div>
+    
+    <script>
+        function showStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status show ${type}`;
+        }
+        
+        async function generateNews() {
+            const btn = document.querySelector('.btn-generate');
+            const textEl = document.getElementById('generate-text');
+            const originalText = textEl.innerHTML;
+            
+            btn.disabled = true;
+            textEl.innerHTML = '<span class="loading"></span> Processing...';
+            
+            showStatus('Running scraper and AI processor... This may take a few minutes.', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:5000/generate', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus(`✅ Success! Generated ${data.count} articles.`, 'success');
+                } else {
+                    showStatus(`❌ Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}. Make sure the backend server is running.`, 'error');
+            } finally {
+                btn.disabled = false;
+                textEl.innerHTML = originalText;
+            }
+        }
+        
+        async function uploadToVercel() {
+            const btn = document.querySelector('.btn-upload');
+            const textEl = document.getElementById('upload-text');
+            const originalText = textEl.innerHTML;
+            
+            btn.disabled = true;
+            textEl.innerHTML = '<span class="loading"></span> Uploading...';
+            
+            showStatus('Uploading articles to Vercel...', 'info');
+            
+            try {
+                const response = await fetch('http://localhost:5000/upload', {
+                    method: 'POST'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showStatus(`✅ Uploaded! ${data.inserted} new, ${data.updated} updated.`, 'success');
+                } else {
+                    showStatus(`❌ Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error: ${error.message}. Make sure the backend server is running.`, 'error');
+            } finally {
+                btn.disabled = false;
+                textEl.innerHTML = originalText;
+            }
+        }
+        
+        function viewLocal() {
+            window.open('http://localhost:3000', '_blank');
+        }
+    </script>
+</body>
+</html>
