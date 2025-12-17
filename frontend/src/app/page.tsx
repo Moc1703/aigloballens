@@ -13,6 +13,9 @@ import { NewsCard } from '@/components/NewsCard';
 import { MarketMovers } from '@/components/MarketMovers';
 import { ArrowRight, Activity } from 'lucide-react';
 
+// ISR: Revalidate page every 30 seconds for fresh news
+export const revalidate = 30;
+
 async function getNews(): Promise<Article[]> {
   // In production (Vercel), this will fetch from Postgres
   // In development, you can add a fallback to local JSON if needed
