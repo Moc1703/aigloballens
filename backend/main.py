@@ -18,8 +18,8 @@ DATA_DIR = os.path.join(BASE_DIR, "data")
 os.makedirs(DATA_DIR, exist_ok=True)
 DATA_FILE = os.path.join(DATA_DIR, "news.json")
 
-# Data retention period (30 days)
-RETENTION_DAYS = 30
+# Data retention period (14 days)
+RETENTION_DAYS = 14
 
 def load_existing_articles():
     """Load existing articles from disk."""

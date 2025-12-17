@@ -84,10 +84,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Cleanup: Delete articles older than 30 days
+    // Cleanup: Delete articles older than 14 days
     const cleanupResult = await sql`
       DELETE FROM articles 
-      WHERE created_at < NOW() - INTERVAL '30 days'
+      WHERE created_at < NOW() - INTERVAL '14 days'
     `;
     const deletedCount = cleanupResult.rowCount || 0;
 

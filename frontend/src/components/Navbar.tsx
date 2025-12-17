@@ -8,22 +8,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full flex flex-col">
-       {/* Top Ticker Bar */}
-       <div className="bg-black text-white text-[10px] md:text-xs py-1.5 overflow-hidden whitespace-nowrap border-b border-black">
-            <div className="inline-flex animate-marquee space-x-8 font-mono font-bold">
-                <span className="text-green-400">BTC/USD +2.4%</span>
-                <span className="text-red-400">ETH/USD -0.8%</span>
-                <span className="text-green-400">IHSG +0.5%</span>
-                <span className="text-green-400">GOLD +1.2%</span>
-                <span className="text-red-400">OIL -1.5%</span>
-                <span className="text-white font-bold">NVDA +4.2%</span>
-                <span className="text-white font-bold">GlobalLens A1 Terminal Active...</span>
-                <span className="text-green-400">BTC/USD +2.4%</span>
-                <span className="text-red-400">ETH/USD -0.8%</span>
-                <span className="text-green-400">IHSG +0.5%</span>
-            </div>
-       </div>
-
         <nav className="w-full border-b border-black bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
           <div className="container mx-auto px-4 h-16 flex items-center justify-between max-w-[1400px]">
             
